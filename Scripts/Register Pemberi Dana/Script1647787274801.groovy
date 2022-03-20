@@ -43,7 +43,9 @@ def generator = { String alphabet, int n ->
 
 WebUI.openBrowser('')
 
-WebUI.navigateToUrl('https://dev.p2p.alamisharia.co.id/')
+//1. Registrasi dan Melengkapi data pengguna di aplikasi ALAMI
+
+WebUI.navigateToUrl(GlobalVariable.baseUrl)
 
 WebUI.waitForElementVisible(findTestObject('ALAMI/Page_Login_ALAMI_Peer-to-Peer_Lending_Syariah/a_Daftar disini'), 5)
 
@@ -51,14 +53,13 @@ WebUI.verifyElementClickable(findTestObject('ALAMI/Page_Login_ALAMI_Peer-to-Peer
 
 WebUI.click(findTestObject('ALAMI/Page_Login_ALAMI_Peer-to-Peer_Lending_Syariah/a_Daftar disini'))
 
-WebUI.waitForElementVisible(findTestObject('ALAMI/Page_ALAMI_Daftar-ALAMI_Peer-to-Peer_Lending/div_Pemberi Dana_button'), 
-    0)
+WebUI.waitForElementVisible(findTestObject('ALAMI/Page_ALAMI_Daftar-ALAMI_Peer-to-Peer_Lending/div_Pemberi Dana_button'), 0)
 
 WebUI.click(findTestObject('ALAMI/Page_ALAMI_Daftar-ALAMI_Peer-to-Peer_Lending/div_Pemberi Dana_button'))
 
-WebUI.setText(findTestObject('ALAMI/Page_Daftar_DataDiri_Pemberi_Dana/input_Nama Lengkap_name'), 'Ken ' + "${generator((('A'..'Z')+('a'..'z')).join(), 6)}")
+WebUI.setText(findTestObject('ALAMI/Page_Daftar_DataDiri_Pemberi_Dana/input_Nama Lengkap_name'), 'Ben ' + "${generator((('A'..'Z')+('a'..'z')).join(), 6)}")
 
-WebUI.setText(findTestObject('ALAMI/Page_Daftar_DataDiri_Pemberi_Dana/input_Email_email'), ('ken_' + "$epochDate") + '@maildrop.cc')
+WebUI.setText(findTestObject('ALAMI/Page_Daftar_DataDiri_Pemberi_Dana/input_Email_email'), ('ben_' + "$epochDate") + '@maildrop.cc')
 
 WebUI.setText(findTestObject('ALAMI/Page_Daftar_DataDiri_Pemberi_Dana/input_No. Handphone_phone'), '08' + "$epochDate")
 
@@ -70,22 +71,25 @@ WebUI.click(findTestObject('ALAMI/Page_Daftar_DataDiri_Pemberi_Dana/button_Lanju
 
 WebUI.click(findTestObject('ALAMI/Page_Daftar_DataDiri_Pemberi_Dana/div_Bismillahirrahmanirrahim_TnC'))
 
-WebUI.scrollToElement(findTestObject('ALAMI/Page_Daftar_DataDiri_Pemberi_Dana/p_Plaza 89, Kav. X7Jln. H.R. Rasuna Said_TnC'), 
-    0)
+WebUI.scrollToElement(findTestObject('ALAMI/Page_Daftar_DataDiri_Pemberi_Dana/p_Plaza 89, Kav. X7Jln. H.R. Rasuna Said_TnC'), 0)
 
 WebUI.click(findTestObject('ALAMI/Page_Daftar_DataDiri_Pemberi_Dana/input_CheckBox_Setuju_TnC'))
 
 WebUI.click(findTestObject('ALAMI/Page_Daftar_DataDiri_Pemberi_Dana/button_Lanjutkan_After_TnC'))
 
+//1.1. Assertion proses pengisian data diri dan proses registrasi
+
 WebUI.verifyElementText(findTestObject('ALAMI/Page_Selesai_Mendaftar_Pemberi_Dana/h3_TerimaKasih'), 'Terima Kasih!')
 
 WebUI.verifyElementClickable(findTestObject('ALAMI/Page_Selesai_Mendaftar_Pemberi_Dana/a_Kirim Ulang Aktivasi Email'))
 
-WebUI.navigateToUrl('https://maildrop.cc')
+//2. Melakukan verifikasi email
+
+WebUI.navigateToUrl(GlobalVariable.mailDropUrl)
 
 WebUI.waitForElementVisible(findTestObject('Maildrop/Page_Maildrop/input'), 0)
 
-WebUI.setText(findTestObject('Maildrop/Page_Maildrop/input'), 'ken_' + "$epochDate")
+WebUI.setText(findTestObject('Maildrop/Page_Maildrop/input'), 'ben_' + "$epochDate")
 
 WebUI.click(findTestObject('Maildrop/Page_Maildrop/button_View Inbox'))
 
@@ -120,12 +124,18 @@ WebUI.scrollToElement(findTestObject('Maildrop/Page_inbox_ Maildrop/p_Klik Untuk
 
 WebUI.click(findTestObject('Maildrop/Page_inbox_ Maildrop/p_Klik Untuk Aktivasi Email  Log-in'))
 
-WebUI.navigateToUrl('https://dev.p2p.alamisharia.co.id/')
+//3. Melakukan login ke aplikasi ALAMI setelah verifikasi email
 
-WebUI.setText(findTestObject('ALAMI/Page_Login_ALAMI_Peer-to-Peer_Lending_Syariah/input_Assalamualaikum_username'), ('ken_' + "$epochDate") + '@maildrop.cc')
+WebUI.navigateToUrl(GlobalVariable.baseUrl)
+
+WebUI.setText(findTestObject('ALAMI/Page_Login_ALAMI_Peer-to-Peer_Lending_Syariah/input_Assalamualaikum_username'), ('ben_' + "$epochDate") + '@maildrop.cc')
 
 WebUI.setEncryptedText(findTestObject('ALAMI/Page_Login_ALAMI_Peer-to-Peer_Lending_Syariah/input_Assalamualaikum_password'), GlobalVariable.defaultPassword)
 
 WebUI.click(findTestObject('ALAMI/Page_Login_ALAMI_Peer-to-Peer_Lending_Syariah/a_Masuk Ke Akun Saya'))
 
+//3.1. Melakukan assertion status pengguna setelah berhasil melakukan login
+
 WebUI.verifyElementVisible(findTestObject('ALAMI/Page_Pemberi_Dana_Dashboard/h4_Lengkapi Profilmu Untuk Aktivasi Akun dan RDF (Rekening Dana Funder)'))
+
+WebUI.closeBrowser()

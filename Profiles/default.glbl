@@ -14,4 +14,9 @@
       <initValue>'AUixpL862hkr9PBg6aftiQ=='</initValue>
       <name>defaultPassword</name>
    </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'https://maildrop.cc'</initValue>
+      <name>mailDropUrl</name>
+   </GlobalVariableEntity>
 </GlobalVariableEntities>
